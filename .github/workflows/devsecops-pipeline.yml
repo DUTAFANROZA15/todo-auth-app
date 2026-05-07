@@ -28,7 +28,7 @@ jobs:
       - name: Jalankan Unit Tests
         run: npm test -- --watchAll=false
 
-      - name: Upload Coverage Report
+      - name: Jalankan Coverage
         run: npm run test:coverage
 
   sast-scan:
@@ -63,10 +63,41 @@ jobs:
       - name: Audit npm dependencies
         run: npm audit --audit-level=high || true
 
+  sonar-scan:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: [sast-scan, sca-scan]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Jalankan Coverage untuk SonarCloud
+        run: npm run test:coverage
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          args: >
+            -Dsonar.projectKey=DUTAFANROZA15_todo-auth-app
+            -Dsonar.organization=dutafanroza15
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
   build:
     name: Build Production
     runs-on: ubuntu-latest
-    needs: [sast-scan, sca-scan]
+    needs: sonar-scan
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
