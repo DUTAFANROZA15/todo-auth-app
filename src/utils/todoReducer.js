@@ -1,3 +1,4 @@
+// Generate ID unik tanpa library eksternal
 function uuidv4() {
   return 'id-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
 }
@@ -13,7 +14,6 @@ export const initialState = {
 export function todoReducer(state, action) {
   switch (action.type) {
 
-    // Login user
     case 'LOGIN':
       return {
         ...state,
@@ -21,7 +21,6 @@ export function todoReducer(state, action) {
         isAuthenticated: true,
       };
 
-    // Logout user
     case 'LOGOUT':
       return {
         ...state,
@@ -29,15 +28,13 @@ export function todoReducer(state, action) {
         isAuthenticated: false,
       };
 
-    // Set semua todos (saat pertama load)
     case 'SET_TODOS':
       return {
         ...state,
         todos: action.payload,
       };
 
-    // Tambah tugas baru
-    case 'ADD_TODO':
+    case 'ADD_TODO': {
       const newTodo = {
         id: uuidv4(),
         title: action.payload.title,
@@ -53,15 +50,14 @@ export function todoReducer(state, action) {
         ...state,
         todos: [...state.todos, newTodo],
       };
+    }
 
-    // Hapus tugas
     case 'DELETE_TODO':
       return {
         ...state,
         todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
 
-    // Tandai selesai / belum selesai
     case 'TOGGLE_TODO':
       return {
         ...state,
@@ -72,7 +68,6 @@ export function todoReducer(state, action) {
         ),
       };
 
-    // Edit tugas
     case 'EDIT_TODO':
       return {
         ...state,
@@ -83,20 +78,17 @@ export function todoReducer(state, action) {
         ),
       };
 
-    // Berbagi tugas ke user lain
     case 'SHARE_TODO':
       return {
         ...state,
-        todos: state.todos.map((todo) =>
-          todo.id === action.payload.todoId
-            ? {
-                ...todo,
-                sharedWith: todo.sharedWith.includes(action.payload.userId)
-                  ? todo.sharedWith
-                  : [...todo.sharedWith, action.payload.userId],
-              }
-            : todo
-        ),
+        todos: state.todos.map((todo) => {
+          if (todo.id !== action.payload.todoId) return todo;
+          if (todo.sharedWith.includes(action.payload.userId)) return todo;
+          return {
+            ...todo,
+            sharedWith: [...todo.sharedWith, action.payload.userId],
+          };
+        }),
       };
 
     default:

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useApp } from '../utils/AppContext';
-import { getPriorityLabel, isOverdue } from '../data/todoData';
-import { users } from '../data/todoData';
+import { getPriorityLabel, isOverdue, users } from '../data/todoData';
 
 function TodoCard({ todo, onEdit, onShare, showToast }) {
   const { toggleTodo, deleteTodo, state } = useApp();
@@ -11,17 +10,20 @@ function TodoCard({ todo, onEdit, onShare, showToast }) {
 
   const getSharedNames = () => {
     return todo.sharedWith
-      .map((id) => users.find((u) => u.id === id)?.name)
+      .map((id) => {
+        const user = users.find((u) => u.id === id);
+        return user ? user.name : null;
+      })
       .filter(Boolean)
       .join(', ');
   };
 
   const handleToggle = () => {
     toggleTodo(todo.id);
-    showToast(
-      todo.completed ? 'Tugas ditandai belum selesai' : 'Tugas selesai! 🎉',
-      'success'
-    );
+    const message = todo.completed
+      ? 'Tugas ditandai belum selesai'
+      : 'Tugas selesai! 🎉';
+    showToast(message, 'success');
   };
 
   const handleDelete = () => {
@@ -31,12 +33,16 @@ function TodoCard({ todo, onEdit, onShare, showToast }) {
     }
   };
 
+  const cardClass = [
+    'todo-card',
+    todo.completed ? 'completed' : '',
+    overdue ? 'overdue' : `priority-${todo.priority}`,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div
-      className={`todo-card ${todo.completed ? 'completed' : ''} ${
-        overdue ? 'overdue' : `priority-${todo.priority}`
-      }`}
-    >
+    <div className={cardClass}>
       <div className="todo-card-header">
         <span className={`todo-title ${todo.completed ? 'done' : ''}`}>
           {todo.title}
