@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+# ✅ Todo Auth App — Aplikasi To-Do List dengan Autentikasi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Tugas Bab 11: Kualitas Perangkat Lunak — Pengantar Rekayasa Perangkat Lunak
 
-## Available Scripts
+![React](https://img.shields.io/badge/React-18-blue) ![Jest](https://img.shields.io/badge/Coverage-84%25-green) ![ESLint](https://img.shields.io/badge/ESLint-8-yellow) ![CI](https://img.shields.io/badge/CI-GitHub_Actions-teal) ![SonarCloud](https://img.shields.io/badge/SonarCloud-Passed-brightgreen) ![Quality Gate](https://img.shields.io/badge/Quality_Gate-Passed-brightgreen)
 
-In the project directory, you can run:
+## Deskripsi Proyek
 
-### `npm start`
+Todo Auth App adalah aplikasi catatan tugas harian berbasis web yang dibangun menggunakan React.js sebagai studi kasus implementasi kualitas perangkat lunak. Aplikasi ini mendukung **multi-user**, **prioritas tugas**, **deadline**, dan **fitur berbagi tugas antar pengguna**.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Proyek ini mendemonstrasikan penerapan prinsip *Shift-Left Testing*, *Static Analysis*, dan pipeline *DevSecOps* dalam siklus pengembangan perangkat lunak modern.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Anggota Kelompok
 
-### `npm test`
+| Nama | NIM |
+|------|-----|
+| Duta Fanroza | 24343005 |
+| Firnanda Rizky Pratama Mt | 24343008 |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Fitur Aplikasi
 
-### `npm run build`
+- 🔐 Autentikasi pengguna multi-user (Login/Logout)
+- ✅ Manajemen tugas lengkap (Tambah, Edit, Hapus, Selesai)
+- 🔴🟡🟢 Sistem prioritas tugas (Tinggi, Sedang, Rendah)
+- 📅 Manajemen deadline dengan deteksi tugas terlambat
+- 🔗 Fitur berbagi tugas antar pengguna
+- 🔍 Filter dan pencarian tugas secara real-time
+- 📊 Statistik ringkasan tugas (Total, Selesai, Terlambat)
+- 🔔 Notifikasi toast untuk feedback pengguna
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Teknologi
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Kategori | Teknologi |
+|----------|-----------|
+| Frontend | React 18, Context API, useReducer |
+| Testing | Jest 29, @testing-library/react |
+| Linting | ESLint 8 + plugin React & React Hooks |
+| CI/CD | GitHub Actions |
+| SAST | Semgrep |
+| SCA | npm audit |
+| Quality Gate | SonarCloud |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Struktur Proyek
 
-### `npm run eject`
+```
+todo-auth-app/
+├── .github/workflows/
+│   └── devsecops-pipeline.yml   # CI/CD Pipeline
+├── src/
+│   ├── components/              # Navbar, Toast, TodoCard, TodoModal, ShareModal
+│   ├── pages/                   # LoginPage, TodoPage
+│   ├── utils/
+│   │   ├── todoReducer.js       # Pure function — business logic
+│   │   └── AppContext.js        # Global state context
+│   ├── data/
+│   │   └── todoData.js          # Data tugas & helper functions
+│   ├── styles/
+│   │   └── global.css           # Stylesheet global
+│   ├── todoReducer.test.js      # 12 unit tests reducer
+│   ├── todoData.test.js         # 11 unit tests data
+│   └── TodoCard.test.js         # 10 unit tests component
+├── sonar-project.properties     # Konfigurasi SonarCloud
+├── .eslintrc.json               # Konfigurasi ESLint
+└── package.json
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Cara Menjalankan
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prasyarat
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Node.js versi 16 atau lebih baru
+- npm versi 8 atau lebih baru
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Instalasi & Menjalankan Aplikasi
 
-## Learn More
+```bash
+git clone https://github.com/DUTAFANROZA15/todo-auth-app.git
+cd todo-auth-app
+npm install --legacy-peer-deps
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Aplikasi akan berjalan di `http://localhost:3000`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Akun untuk Login
 
-### Code Splitting
+| Username | Password | Nama |
+|----------|----------|------|
+| duta | 123456 | Duta Fanroza |
+| rizky | 123456 | Firnanda Rizky Pratama |
+| admin | admin123 | Administrator |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Menjalankan Test
 
-### Analyzing the Bundle Size
+```bash
+npm test                  # Jalankan semua unit test
+npm run test:coverage     # Jalankan test + laporan coverage
+npm run lint              # Cek kualitas kode dengan ESLint
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Pipeline DevSecOps
 
-### Making a Progressive Web App
+Pipeline CI/CD otomatis berjalan pada setiap *push* ke branch `master` dengan tahapan berikut:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+| Tahap | Tool | Fungsi |
+|-------|------|--------|
+| 1. Lint & Unit Test | ESLint + Jest | Kualitas kode dan coverage minimum 80% |
+| 2. SAST | Semgrep | Deteksi kerentanan pada source code |
+| 3. SCA | npm audit | Deteksi kerentanan pada dependencies |
+| 4. SonarCloud | SonarCloud | Analisis kualitas kode menyeluruh |
+| 5. Build | react-scripts | Build production (hanya di branch master) |
 
-### Advanced Configuration
+## Coverage Target
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Metrik | Target | Aktual |
+|--------|--------|--------|
+| Lines | 80% | ✅ 84% |
+| Branches | 75% | ✅ 81% |
+| Functions | 80% | ✅ 100% |
+| Statements | 80% | ✅ 100% |
 
-### Deployment
+## Hasil SonarCloud
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+| Metrik | Sebelum | Sesudah |
+|--------|---------|---------|
+| Quality Gate | ❌ Failed | ✅ Passed |
+| Security Rating | C | A |
+| Reliability Rating | A | A |
+| Maintainability Rating | A | A |
+| Security Hotspots | 4 | 0 |
+| Coverage | 17% | 84% |
+| Duplications | 0.0% | 0.0% |
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*Universitas Negeri Padang — Program Studi Informatika — 2026*
